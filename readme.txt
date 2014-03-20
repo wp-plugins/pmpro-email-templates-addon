@@ -4,12 +4,13 @@ Contributors: strangerstudios, jessica o
 Tags: pmpro, email, templates, customize, member, membership, subscription, addon
 Requires at least: 3.5
 Tested up to: 3.8.1
-Stable tag: .3
+Stable tag: .4
 
 == Description ==
-This addon makes it easier to edit the PMPro email templates by copying and pasting your own HTML email files.
+Customize PMPro email templates right from the WordPress dashboard!
+Simply select an email template from the dropdown list, edit, and save!
 
-== Features: ==
+== Features ==
 * Edit email templates directly from the WordPress dashboard!
 * Imports existing email templates from paid-memberships-pro/email/ directory
 * Filter to handle all $data variables
@@ -24,6 +25,10 @@ This addon makes it easier to edit the PMPro email templates by copying and past
   * Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-email-templates/issues
 
 == Changelog ==
+= .4 =
+* Fixed warnings when setting up $data array.
+* Fixed issue where emails were getting double content.
+
 = .3 =
 * Added reset button
 * Added AJAX saving.
