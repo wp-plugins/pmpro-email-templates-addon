@@ -3,8 +3,8 @@
 Contributors: strangerstudios, messica
 Tags: pmpro, email, templates, customize, member, membership, subscription, addon
 Requires at least: 3.5
-Tested up to: 3.9.1
-Stable tag: .5.2
+Tested up to: 4.0
+Stable tag: .5.3
 
 == Description ==
 Customize PMPro email templates right from the WordPress dashboard!
@@ -26,6 +26,9 @@ Simply select an email template from the dropdown list, edit, and save!
   * Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-email-templates/issues
 
 == Changelog ==
+= .5.3 =
+* BUG: Fixed bug where the wp_login_url() was not being set properly and throwing a warning that could break checkout.
+
 = .5.2 =
 * Added ability to disable header, footer, or even entire emails.
 

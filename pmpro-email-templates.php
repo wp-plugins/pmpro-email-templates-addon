@@ -5,7 +5,7 @@
  * Author: Stranger Studios
  * Author URI: http://www.strangerstudios.com
  * Plugin URI: http://www.paidmembershipspro.com/add-ons/plugins-wordpress-repository/email-templates-admin-editor/
- * Version: .5.2
+ * Version: .5.3
  */
 
 /* Email Template Default Subjects (body is read from template files in /email/ ) */
@@ -151,25 +151,25 @@ function pmproet_email_filter($email) {
         $default_body = $email->body;
     }
 
-    if($et_subject)
+    if(!empty($et_subject))
         $email->subject = $et_subject;
 
     //is header disabled?
     if(pmpro_getOption('email_header_disabled') != 'true') {
-        if($et_header)
+        if(!empty($et_header))
             $temp_content = $et_header;
         else
             $temp_content = file_get_contents( PMPRO_DIR . '/email/header.html');
     }
 
-    if($et_body)
+    if(!empty($et_body))
         $temp_content .= $et_body;
     else
         $temp_content .= $default_body;
 
     //is footer disabled?
     if(pmpro_getOption('email_footer_disabled') != 'true') {
-        if($et_footer)
+        if(!empty($et_footer))
             $temp_content .= $et_footer;
         else
             $temp_content .= file_get_contents( PMPRO_DIR . '/email/footer.html');
@@ -193,8 +193,9 @@ function pmproet_email_data($data, $email) {
 
     global $current_user, $pmpro_currency_symbol, $wpdb;
 
-    $user = get_user_by('login', $data['user_login']);
-    if(!$user)
+	if(!empty($data) && !empty($data['user_login']))
+		$user = get_user_by('login', $data['user_login']);
+    if(empty($user))
         $user = $current_user;
     $pmpro_user_meta = $wpdb->get_row("SELECT * FROM $wpdb->pmpro_memberships_users WHERE user_id = '" . $user->ID . "' AND status='active'");
 
@@ -206,7 +207,7 @@ function pmproet_email_data($data, $email) {
     $new_data['sitename'] = get_option("blogname");
 	$new_data['siteemail'] = pmpro_getOption("from_email");
 	if(empty($new_data['login_link']))
-		$new_data['login_link'] = wp_login_url;
+		$new_data['login_link'] = wp_login_url();
 	$new_data['levels_link'] = pmpro_url("levels");        
 	
 	//user data
