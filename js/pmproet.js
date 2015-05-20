@@ -1,12 +1,11 @@
 jQuery(document).ready(function($) {
-
-    /* Variables */
-
-    var template, disabled, $subject, $editor;
-
-    $subject = $("#email_template_subject").closest("tr");
-    $editor = $("#wp-email_template_body-wrap");
-
+    
+	/* Variables */
+	var template, disabled, $subject, $editor, $testemail;
+	$subject = $("#email_template_subject").closest("tr");
+	$editor = $("#wp-email_template_body-wrap");
+	$testemail = $("#test_email_address").closest("tr");
+	
     $(".hide-while-loading").hide();
     $(".controls").hide();
     $(".striped tr:even").css('background-color','#efefef');
@@ -38,10 +37,14 @@ jQuery(document).ready(function($) {
         disableTemplate();
     });
 
-    /* Functions */
-    function getTemplate(template) {
+    $("#send_test_email").click(function(e) {       
+		saveTemplate().done(setTimeout(function(){sendTestEmail();}, '1000'));
+    });
 
-        //hide stuff and show ajax spinner
+    /* Functions */
+    function getTemplate(template) {        
+				
+		//hide stuff and show ajax spinner
         $(".hide-while-loading").hide();
         $("#pmproet-spinner").show();
 
@@ -65,6 +68,8 @@ jQuery(document).ready(function($) {
             if (template == 'email_header' || template === 'email_footer') {
 
                 $subject.hide();
+				$testemail.hide();
+				
                 if(template == 'email_header')
                     $("#disable_label").text("Disable email header for all PMPro emails?");
                 else
@@ -74,7 +79,8 @@ jQuery(document).ready(function($) {
                 $("#disable_description").hide();
             }
             else {
-                $("#disable_label").text("Disable this email?");
+                $testemail.show();
+				$("#disable_label").text("Disable this email?");
                 $("#disable_description").show().text("PMPro emails with this template will not be sent.");
             }
 
@@ -112,6 +118,8 @@ jQuery(document).ready(function($) {
             $(".status").show();
             $(".status_message").show();
         });
+
+		return $.Deferred().resolve();
     }
 
     function resetTemplate() {
@@ -168,7 +176,36 @@ jQuery(document).ready(function($) {
 
             toggleFormDisabled(disabled);
         });
+    }
 
+    function sendTestEmail() {
+
+        //hide stuff and show ajax spinner
+        $(".hide-while-loading").hide();
+        $("#pmproet-spinner").show();
+
+        data = {
+            template: template,
+            email: $("#test_email_address").val(),			
+            action: 'pmproet_send_test'
+        };
+
+        $.post(ajaxurl, data, function(success) {
+            //show/hide stuff
+            $("#pmproet-spinner").hide();
+            $(".controls").show();
+            $(".hide-while-loading").show();
+
+            if(success) {
+                $("#message").addClass("updated").removeClass("error");
+                $(".status_message").show().text("Test e-mail sent successfully.");
+            }
+            else {
+                $("#message").addClass("error").removeClass("updated");
+                $(".status_message").show().text("Test e-mail failed.");
+            }
+
+        })
     }
 
     function toggleFormDisabled(disabled) {
