@@ -5,7 +5,7 @@
  * Author: Stranger Studios
  * Author URI: http://www.strangerstudios.com
  * Plugin URI: http://www.paidmembershipspro.com/add-ons/plugins-wordpress-repository/email-templates-admin-editor/
- * Version: .5.4.1
+ * Version: .5.4.2
  */
 
 /*
@@ -124,6 +124,9 @@ function pmproet_send_test() {
     //add notice to email body
     add_filter('pmpro_email_body', 'pmproet_test_email_body');
 
+    //force the template
+    add_filter('pmpro_email_filter', 'pmproet_test_email_template', 5);
+
     //figure out how to send the email
     switch($test_email->template) {
         case 'cancel':
@@ -204,7 +207,7 @@ add_action('wp_ajax_pmproet_send_test', 'pmproet_send_test');
 
 /* Filter Subject and Body */
 function pmproet_email_filter($email) {
-    
+
     //is this email disabled?
     if(pmpro_getOption('email_' . $email->template . '_disabled') == 'true')
         return false;
@@ -213,6 +216,7 @@ function pmproet_email_filter($email) {
     $et_header = pmpro_getOption('email_header_body');
     $et_body = pmpro_getOption('email_' . $email->template . '_body');
     $et_footer = pmpro_getOption('email_footer_body');
+
 
     if(file_exists( PMPRO_DIR . '/email/' . str_replace('email_', '', $email->template) . '.html')) {
         $default_body = file_get_contents( PMPRO_DIR . '/email/' . str_replace('email_', '', $email->template) . '.html');
@@ -262,6 +266,13 @@ add_filter('pmpro_email_filter', 'pmproet_email_filter');
 function pmproet_test_email_body($body, $email) {
     $body .= '<br><br><b>--- ' . __('THIS IS A TEST EMAIL', 'pmpro') . ' --</b>';
     return $body;
+}
+function pmproet_test_email_template($email)
+{
+    if(!empty($_REQUEST['template']))
+        $email->template = str_replace('email_', '', $_REQUEST['template']);
+
+    return $email;
 }
 
 /* Filter for Variables */
