@@ -1,10 +1,10 @@
-=== PMPro Email Templates ===
+=== Paid Memberships Pro - Email Templates Add On ===
 
 Contributors: strangerstudios, messica
-Tags: pmpro, email, templates, customize, member, membership, subscription, addon
+Tags: pmpro, paid memberships pro, email, templates, customize, member, membership, subscription, addon
 Requires at least: 3.5
-Tested up to: 3.9.1
-Stable tag: .5.2
+Tested up to: 4.2.4
+Stable tag: .5.5
 
 == Description ==
 Customize PMPro email templates right from the WordPress dashboard!
@@ -25,7 +25,30 @@ Simply select an email template from the dropdown list, edit, and save!
 * I found a bug in the plugin.
   * Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-email-templates/issues
 
+== Screenshots ==
+
+1. The Email Templates admin page: Select the template to edit. Includes a list of template tags to include in your message body.
+
 == Changelog ==
+= .5.5 =
+* ENHANCEMENT: You can add any user meta field to an email template now by using a variable like !!meta_key!!. This will work as long as there isn't already data using that variable.
+
+= .5.4.3 =
+* BUG: Fixed issue where test emails were being sent to the admin email instead of the one entered into the send test email form. (Thanks, John Hamlin)
+
+= .5.4.2 =
+* BUG: Now forcing the selected template for test emails.
+
+= .5.4.1 =
+* BUG: Fixed issue where plugin would fail if the MemberOrder class was not yet loaded (i.e. PMPro is inactive).
+
+= .5.4 =
+* ENAHANCEMENT: Added test email feature
+
+= .5.3 =
+* BUG: Fixed bug where the wp_login_url() was not being set properly and throwing a warning that could break checkout.
+* BUG: Fixed typo/warning in setting of enddate in data vars. (Thanks, John Hamlin.)
+
 = .5.2 =
 * Added ability to disable header, footer, or even entire emails.
 
